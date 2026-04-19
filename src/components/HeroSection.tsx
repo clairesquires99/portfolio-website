@@ -70,7 +70,10 @@ export function HeroSection() {
           Claire Squires
         </h1>
         <p className="text-[clamp(20px,1.5vw,30px)] leading-[1.65] text-muted tracking-[0.01em] font-h2 font-extralight">
-          Building at the intersection of engineering, design and people.
+          Building at the intersection of{" "}
+          <span className="font-light text-hero-name">engineering</span>,{" "}
+          <span className="font-light text-hero-name">design</span> and{" "}
+          <span className="font-light text-hero-name">people</span>.
         </p>
       </div>
 
