@@ -8,11 +8,16 @@
   --font-mono: ui-monospace, Consolas, monospace;
 
   /* ── Colours ────────────────────────────────────────────────────────────── */
-  --color-hero-bg: #eae5df;
+  --color-hero-bg: #f0ece6;
   --color-hero-name: #1c1820;
   --color-muted: #6b6375;
   --color-label: #3d3847;
   --color-dot-engineering: #5b8ce0;
   --color-dot-design: #d64848;
   --color-dot-people: #e05e72;
+}
+
+html,
+body {
+  background-color: #f0ece6;
 }
