@@ -33,7 +33,7 @@ export const PROJECTS: Project[] = [
     name: "Hearth",
     dateRange: "Jan 2026 – Present",
     category: "Startup",
-    why: "When a health crisis hits, families face two problems at once — the crisis itself, and making enormous decisions with almost no information about what their loved one actually wanted.",
+    why: "As a child who moved overseas, I often think of the conversations I want to have with my parents about their futures. But these conversations are hard. So I wondered, could I build something that helps?",
     description:
       "A platform helping adult children have end-of-life conversations with aging parents before a crisis forces it. Users move through guided interactive conversations at their own pace, with progress saved so they can return, reflect, and share with family. Built through Cornell Tech's Startup Studio, grounded in real customer discovery with families navigating exactly this.",
     collaborators: [
