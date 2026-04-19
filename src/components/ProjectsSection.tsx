@@ -1,7 +1,7 @@
 import { ArrowRight, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PROJECTS } from "../data/projects";
-import { toSlug } from "./ProjectPage";
+import { toSlug } from "../utils/slugify";
 
 export function ProjectsSection() {
   return (

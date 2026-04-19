@@ -1,3 +1,10 @@
+import books from "../assets/books.jpg";
+import classroom from "../assets/classroom.jpg";
+import fruits from "../assets/fruits.jpg";
+import hearth from "../assets/Heath.jpg";
+import saferSpaces from "../assets/SaferSpaces.jpg";
+import tpf from "../assets/TPF.png";
+
 export type ProjectLink = {
   label: string;
   url: string;
@@ -18,6 +25,7 @@ export type Project = {
   collaborators: Collaborator[];
   stack: string[];
   links?: ProjectLink[];
+  image: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -40,6 +48,7 @@ export const PROJECTS: Project[] = [
     ],
     stack: ["React", "Next.js", "TypeScript", "Supabase", "Twine"],
     links: [{ label: "Website", url: "https://ourhearth.co" }],
+    image: hearth,
   },
   {
     name: "FruitGAN",
@@ -55,6 +64,7 @@ export const PROJECTS: Project[] = [
     links: [
       { label: "Demo video", url: "https://media.ed.ac.uk/media/t/1_w0eynkue" },
     ],
+    image: fruits,
   },
   {
     name: "Safer Spaces",
@@ -72,6 +82,7 @@ export const PROJECTS: Project[] = [
     links: [
       { label: "Submission", url: "https://devpost.com/software/safer-spaces" },
     ],
+    image: saferSpaces,
   },
   {
     name: "The Photography Foundation",
@@ -93,6 +104,7 @@ export const PROJECTS: Project[] = [
         url: "https://www.thephotographyfoundation.org/",
       },
     ],
+    image: tpf,
   },
   {
     name: "Recommenda",
@@ -111,6 +123,7 @@ export const PROJECTS: Project[] = [
       "TMDB API",
       "Spotify API",
     ],
+    image: books,
   },
   {
     name: "Covid and the Classroom",
@@ -137,5 +150,6 @@ export const PROJECTS: Project[] = [
         url: "https://datafest2020.shinyapps.io/TheDataQuails/",
       },
     ],
+    image: classroom,
   },
 ];
