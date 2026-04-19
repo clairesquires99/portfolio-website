@@ -3,6 +3,9 @@ export function HeroSection() {
     <section className="min-h-svh flex bg-hero-bg overflow-hidden">
       {/* ── Left: text ─────────────────────────────────────────────────────── */}
       <div className="flex-[0_0_50%] flex flex-col justify-center py-20 pl-30 pr-8">
+        <p className="mb-4 font-jost text-lg text-hero-name tracking-[0.1em] uppercase">
+          Product Engineer
+        </p>
         <h1 className="mb-7 font-h1 font-light italic leading-[0.88] text-[clamp(68px,7vw,100px)] text-hero-name tracking-[-0.01em] antialiased">
           Claire Squires
         </h1>
