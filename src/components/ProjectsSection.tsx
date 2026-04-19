@@ -26,7 +26,7 @@ export function ProjectsSection() {
                     {item.category}
                   </span>
                   {item.award && (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-h2 font-medium tracking-[0.05em] uppercase text-amber-700/80 bg-amber-100/60 border border-amber-200/70">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-h2 font-medium tracking-[0.05em] uppercase text-zinc-600 bg-[linear-gradient(160deg,#fafafc_0%,#b8b8c0_42%,#ececf0_100%)] border border-zinc-300/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-1px_0_rgba(0,0,0,0.08)]">
                       <Trophy size={10} strokeWidth={1.75} />
                       Award winning
                     </span>
