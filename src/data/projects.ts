@@ -110,7 +110,7 @@ export const PROJECTS: Project[] = [
     name: "Recommenda",
     dateRange: "Nov 2022 – Dec 2022",
     category: "Personal Project",
-    why: "Friends recommend things all the time. Most of it gets forgotten. I wanted to fix that.",
+    why: "Continuously recommending books to my friends, and being frustrated by not having a central sharing place for all the books, music and movies I wanted to share, I built my own solution.",
     description:
       "A social recommendation app for books, films, music, and podcasts. You follow friends, they send you picks, everything lives in one place. Built with Flask and connected to real APIs — Google Books, TMDB, Spotify. A work in progress, but it works.",
     collaborators: [],
