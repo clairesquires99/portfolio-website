@@ -33,7 +33,7 @@ export const PROJECTS: Project[] = [
     name: "Hearth",
     dateRange: "Jan 2026 – Present",
     category: "Startup",
-    why: "When a health crisis hits, families face two problems at once — the crisis itself, and making enormous decisions with almost no information about what their loved one actually wanted.",
+    why: "As a child who moved overseas, I often think of the conversations I want to have with my parents about their futures. But these conversations are hard. So I wondered, could I build something that helps?",
     description:
       "A platform helping adult children have end-of-life conversations with aging parents before a crisis forces it. Users move through guided interactive conversations at their own pace, with progress saved so they can return, reflect, and share with family. Built through Cornell Tech's Startup Studio, grounded in real customer discovery with families navigating exactly this.",
     collaborators: [
@@ -58,7 +58,7 @@ export const PROJECTS: Project[] = [
       "Outstanding Project Submission awarded by Department of Informatics at The University of Edinburgh",
     why: "GANs were state-of-the-art image generation at the time, and I wanted to use them to explore something stranger — what fruit looks like inside someone's head.",
     description:
-      "A web app that used a GAN-generated image space to map how people mentally categorise fruit. Participants interacted with a slider that morphed photorealistic fruit images along a continuous visual spectrum, nudging each image until it matched their mental picture of a category. Their responses were used to reconstruct their internal concept representations. Built with Flask and Svelte, with a StyleGAN2 model trained on fruit images under the hood.",
+      "A web app that used a GAN-generated image space to map how people mentally categorise fruit. Participants interacted with a slider that morphed photorealistic fruit images along a continuous visual spectrum, nudging each image until it matched their mental picture of a category. Their responses were used to reconstruct their internal concept representations.",
     collaborators: [],
     stack: ["Python", "Flask", "Svelte", "StyleGAN2", "SQLite"],
     links: [
@@ -110,9 +110,9 @@ export const PROJECTS: Project[] = [
     name: "Recommenda",
     dateRange: "Nov 2022 – Dec 2022",
     category: "Personal Project",
-    why: "Friends recommend things all the time. Most of it gets forgotten. I wanted to fix that.",
+    why: "Continuously recommending books to my friends, and being frustrated by not having a central sharing place for all the books, music and movies I wanted to share, I built my own solution.",
     description:
-      "A social recommendation app for books, films, music, and podcasts. You follow friends, they send you picks, everything lives in one place. Built with Flask and connected to real APIs — Google Books, TMDB, Spotify. A work in progress, but it works.",
+      "A social recommendation app for books, films, music, and podcasts. You follow friends, they send you picks, everything lives in one place.",
     collaborators: [],
     stack: [
       "Python",

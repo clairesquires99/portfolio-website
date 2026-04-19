@@ -5,7 +5,7 @@ import { toSlug } from "../utils/slugify";
 
 export function ProjectsSection() {
   return (
-    <section className="bg-hero-bg px-14 pt-10 pb-16">
+    <section className="min-h-svh bg-hero-bg px-14 pt-10 pb-16 flex flex-col justify-center">
       <ul className="w-full">
         {PROJECTS.map((item) => (
           <li key={item.name} className="first:border-t border-b border-black/10">

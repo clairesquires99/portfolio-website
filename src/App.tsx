@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Footer } from "./components/Footer";
 import { HeroSection } from "./components/HeroSection";
 import { ProjectPage } from "./components/ProjectPage";
 import { ProjectsSection } from "./components/ProjectsSection";
@@ -8,6 +9,7 @@ function Home() {
     <>
       <HeroSection />
       <ProjectsSection />
+      <Footer />
     </>
   );
 }
