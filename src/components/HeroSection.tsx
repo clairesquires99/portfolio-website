@@ -4,36 +4,71 @@ import { useEffect } from "react";
 const REPS = 6;
 
 const CODE_TOKENS = [
-  { text: "def ",        color: "#f92672" },
-  { text: "build",       color: "#a6e22e" },
-  { text: "(self):  ",   color: "#f8f8f2" },
-  { text: "·  ",         color: "#75715e" },
-  { text: "return ",     color: "#f92672" },
+  { text: "def ", color: "#f92672" },
+  { text: "build", color: "#a6e22e" },
+  { text: "(self):  ", color: "#f8f8f2" },
+  { text: "·  ", color: "#75715e" },
+  { text: "return ", color: "#f92672" },
   { text: "self.output  ", color: "#f8f8f2" },
-  { text: "·  ",         color: "#75715e" },
-  { text: "if ",         color: "#f92672" },
-  { text: "__name__ ",   color: "#f8f8f2" },
-  { text: "== ",         color: "#f92672" },
-  { text: '"__main__"',  color: "#e6db74" },
-  { text: ":  ",         color: "#f8f8f2" },
-  { text: "·  ",         color: "#75715e" },
-  { text: "import ",     color: "#f92672" },
-  { text: "asyncio  ",   color: "#f8f8f2" },
-  { text: "·  ",         color: "#75715e" },
-  { text: "class ",      color: "#f92672" },
-  { text: "Pipeline",    color: "#a6e22e" },
-  { text: ":  ",         color: "#f8f8f2" },
-  { text: "·  ",         color: "#75715e" },
-  { text: "await ",      color: "#f92672" },
-  { text: "ship",        color: "#a6e22e" },
+  { text: "·  ", color: "#75715e" },
+  { text: "if ", color: "#f92672" },
+  { text: "__name__ ", color: "#f8f8f2" },
+  { text: "== ", color: "#f92672" },
+  { text: '"__main__"', color: "#e6db74" },
+  { text: ":  ", color: "#f8f8f2" },
+  { text: "·  ", color: "#75715e" },
+  { text: "import ", color: "#f92672" },
+  { text: "asyncio  ", color: "#f8f8f2" },
+  { text: "·  ", color: "#75715e" },
+  { text: "class ", color: "#f92672" },
+  { text: "Pipeline", color: "#a6e22e" },
+  { text: ":  ", color: "#f8f8f2" },
+  { text: "·  ", color: "#75715e" },
+  { text: "await ", color: "#f92672" },
+  { text: "ship", color: "#a6e22e" },
   { text: "(feature)  ", color: "#f8f8f2" },
-  { text: "·  ",         color: "#75715e" },
+  { text: "·  ", color: "#75715e" },
+] as const;
+
+const NAME_TOKENS = [
+  { text: "Amara", font: "Caveat", size: 16 },
+  { text: "  ·  ", font: "Caveat", size: 12 },
+  { text: "Yuki", font: "Dancing Script", size: 15 },
+  { text: "  ·  ", font: "Dancing Script", size: 12 },
+  { text: "Sofia", font: "Kalam", size: 13 },
+  { text: "  ·  ", font: "Kalam", size: 12 },
+  { text: "Priya", font: "Permanent Marker", size: 10 },
+  { text: "  ·  ", font: "Permanent Marker", size: 10 },
+  { text: "Fatima", font: "Indie Flower", size: 13 },
+  { text: "  ·  ", font: "Indie Flower", size: 12 },
+  { text: "Lars", font: "Shadows Into Light", size: 15 },
+  { text: "  ·  ", font: "Shadows Into Light", size: 13 },
+  { text: "Mei", font: "Patrick Hand", size: 13 },
+  { text: "  ·  ", font: "Patrick Hand", size: 12 },
+  { text: "Kofi", font: "Sacramento", size: 19 },
+  { text: "  ·  ", font: "Sacramento", size: 14 },
+  { text: "Isabel", font: "Caveat", size: 15 },
+  { text: "  ·  ", font: "Caveat", size: 12 },
+  { text: "Nadia", font: "Dancing Script", size: 15 },
+  { text: "  ·  ", font: "Dancing Script", size: 12 },
+  { text: "Kenji", font: "Kalam", size: 13 },
+  { text: "  ·  ", font: "Kalam", size: 12 },
+  { text: "Ingrid", font: "Permanent Marker", size: 10 },
+  { text: "  ·  ", font: "Permanent Marker", size: 10 },
+  { text: "Ravi", font: "Indie Flower", size: 13 },
+  { text: "  ·  ", font: "Indie Flower", size: 12 },
+  { text: "Aisha", font: "Shadows Into Light", size: 15 },
+  { text: "  ·  ", font: "Shadows Into Light", size: 13 },
+  { text: "Marcus", font: "Patrick Hand", size: 13 },
+  { text: "  ·  ", font: "Patrick Hand", size: 12 },
+  { text: "Zara", font: "Sacramento", size: 19 },
+  { text: "  ·  ", font: "Sacramento", size: 14 },
 ] as const;
 
 const RIBBONS = [
   { id: "ribbon-top", dur: 6000 },
-  { id: "ribbon-mid", dur: 4000 },
-  { id: "ribbon-bot", dur: 10000 },
+  { id: "ribbon-mid", dur: 15000 },
+  { id: "ribbon-bot", dur: 20000 },
 ];
 
 function GitHubIcon({ size = 20 }: { size?: number }) {
@@ -198,22 +233,24 @@ export function HeroSection() {
         </defs>
         <use
           href="#ribbon-mid"
-          stroke="#1c1820"
+          stroke="#e9e3d7a4"
           strokeWidth="21"
           fill="none"
-          opacity="0.09"
+          opacity="0.9"
         />
-        <text
-          fill="#1c1820"
-          fontSize="13"
-          letterSpacing="2"
-          opacity="0.35"
-          dominantBaseline="middle"
-        >
+        <text fill="#2d1f0d" opacity="0.78" dominantBaseline="middle">
           <textPath href="#ribbon-mid">
-            {
-              "ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  "
-            }
+            {Array.from({ length: REPS }, (_, i) =>
+              NAME_TOKENS.map((token, j) => (
+                <tspan
+                  key={`${i}-${j}`}
+                  fontFamily={`'${token.font}', cursive`}
+                  fontSize={token.size}
+                >
+                  {token.text}
+                </tspan>
+              )),
+            )}
           </textPath>
         </text>
       </svg>
@@ -231,7 +268,13 @@ export function HeroSection() {
             d="M8.54883 812.394C141.549 625.894 256.549 577.893 371.549 619.393C486.549 660.894 618.773 751.726 832.049 707.894C1052.62 662.562 1261.55 366.86 1442.55 411.894"
           />
         </defs>
-        <use href="#ribbon-bot" stroke="#1e1e1e" strokeWidth="21" fill="none" opacity="0.88" />
+        <use
+          href="#ribbon-bot"
+          stroke="#1e1e1e"
+          strokeWidth="21"
+          fill="none"
+          opacity="0.88"
+        />
         <text
           fontSize="11"
           letterSpacing="1.5"
@@ -245,7 +288,7 @@ export function HeroSection() {
                 <tspan key={`${i}-${j}`} fill={token.color}>
                   {token.text}
                 </tspan>
-              ))
+              )),
             )}
           </textPath>
         </text>
