@@ -3,10 +3,37 @@ import { useEffect } from "react";
 
 const REPS = 6;
 
+const CODE_TOKENS = [
+  { text: "def ",        color: "#f92672" },
+  { text: "build",       color: "#a6e22e" },
+  { text: "(self):  ",   color: "#f8f8f2" },
+  { text: "·  ",         color: "#75715e" },
+  { text: "return ",     color: "#f92672" },
+  { text: "self.output  ", color: "#f8f8f2" },
+  { text: "·  ",         color: "#75715e" },
+  { text: "if ",         color: "#f92672" },
+  { text: "__name__ ",   color: "#f8f8f2" },
+  { text: "== ",         color: "#f92672" },
+  { text: '"__main__"',  color: "#e6db74" },
+  { text: ":  ",         color: "#f8f8f2" },
+  { text: "·  ",         color: "#75715e" },
+  { text: "import ",     color: "#f92672" },
+  { text: "asyncio  ",   color: "#f8f8f2" },
+  { text: "·  ",         color: "#75715e" },
+  { text: "class ",      color: "#f92672" },
+  { text: "Pipeline",    color: "#a6e22e" },
+  { text: ":  ",         color: "#f8f8f2" },
+  { text: "·  ",         color: "#75715e" },
+  { text: "await ",      color: "#f92672" },
+  { text: "ship",        color: "#a6e22e" },
+  { text: "(feature)  ", color: "#f8f8f2" },
+  { text: "·  ",         color: "#75715e" },
+] as const;
+
 const RIBBONS = [
   { id: "ribbon-top", dur: 6000 },
   { id: "ribbon-mid", dur: 4000 },
-  { id: "ribbon-bot", dur: 5000 },
+  { id: "ribbon-bot", dur: 10000 },
 ];
 
 function GitHubIcon({ size = 20 }: { size?: number }) {
@@ -141,7 +168,13 @@ export function HeroSection() {
           fill="none"
           opacity="0.09"
         />
-        <text fill="#1c1820" fontSize="13" letterSpacing="2" opacity="0.35" dominantBaseline="middle">
+        <text
+          fill="#1c1820"
+          fontSize="13"
+          letterSpacing="2"
+          opacity="0.35"
+          dominantBaseline="middle"
+        >
           <textPath href="#ribbon-top">
             {
               "design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  "
@@ -170,7 +203,13 @@ export function HeroSection() {
           fill="none"
           opacity="0.09"
         />
-        <text fill="#1c1820" fontSize="13" letterSpacing="2" opacity="0.35" dominantBaseline="middle">
+        <text
+          fill="#1c1820"
+          fontSize="13"
+          letterSpacing="2"
+          opacity="0.35"
+          dominantBaseline="middle"
+        >
           <textPath href="#ribbon-mid">
             {
               "ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  "
@@ -179,7 +218,7 @@ export function HeroSection() {
         </text>
       </svg>
 
-      {/* ── Decorative line overlay — bottom line ──────────────────────────── */}
+      {/* ── Decorative line overlay — bottom line (engineering / code) ──────── */}
       <svg
         viewBox="0 0 1459 819"
         preserveAspectRatio="xMidYMax slice"
@@ -192,18 +231,22 @@ export function HeroSection() {
             d="M8.54883 812.394C141.549 625.894 256.549 577.893 371.549 619.393C486.549 660.894 618.773 751.726 832.049 707.894C1052.62 662.562 1261.55 366.86 1442.55 411.894"
           />
         </defs>
-        <use
-          href="#ribbon-bot"
-          stroke="#1c1820"
-          strokeWidth="21"
-          fill="none"
-          opacity="0.09"
-        />
-        <text fill="#1c1820" fontSize="13" letterSpacing="2" opacity="0.35" dominantBaseline="middle">
+        <use href="#ribbon-bot" stroke="#1e1e1e" strokeWidth="21" fill="none" opacity="0.88" />
+        <text
+          fontSize="11"
+          letterSpacing="1.5"
+          fontWeight="600"
+          dominantBaseline="middle"
+          fontFamily="'SF Mono', 'Fira Code', Consolas, 'Courier New', monospace"
+        >
           <textPath href="#ribbon-bot">
-            {
-              "create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  "
-            }
+            {Array.from({ length: REPS }, (_, i) =>
+              CODE_TOKENS.map((token, j) => (
+                <tspan key={`${i}-${j}`} fill={token.color}>
+                  {token.text}
+                </tspan>
+              ))
+            )}
           </textPath>
         </text>
       </svg>
