@@ -1,4 +1,13 @@
 import { NotepadText } from "lucide-react";
+import { useEffect } from "react";
+
+const REPS = 6;
+
+const RIBBONS = [
+  { id: "ribbon-top", dur: 6000 },
+  { id: "ribbon-mid", dur: 4000 },
+  { id: "ribbon-bot", dur: 5000 },
+];
 
 function GitHubIcon({ size = 20 }: { size?: number }) {
   return (
@@ -29,6 +38,41 @@ function LinkedInIcon({ size = 20 }: { size?: number }) {
 }
 
 export function HeroSection() {
+  useEffect(() => {
+    const cancelFns: (() => void)[] = [];
+
+    const start = () => {
+      RIBBONS.forEach(({ id, dur }) => {
+        const tp = document.querySelector(
+          `textPath[href="#${id}"]`,
+        ) as SVGTextPathElement | null;
+        if (!tp) return;
+
+        const totalLen = tp.getComputedTextLength();
+        if (totalLen === 0) return;
+        const cycleLen = totalLen / REPS;
+
+        let cancelled = false;
+        const t0 = performance.now();
+
+        const tick = (now: number) => {
+          if (cancelled) return;
+          const offset = cycleLen * (((now - t0) % dur) / dur - 1);
+          tp.setAttribute("startOffset", String(offset));
+          requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+        cancelFns.push(() => {
+          cancelled = true;
+        });
+      });
+    };
+
+    document.fonts.ready.then(start);
+    return () => cancelFns.forEach((fn) => fn());
+  }, []);
+
   return (
     <section className="relative min-h-svh flex bg-hero-bg overflow-hidden">
       {/* ── Social links ───────────────────────────────────────────────────── */}
@@ -82,14 +126,28 @@ export function HeroSection() {
         viewBox="0 0 1459 819"
         preserveAspectRatio="xMidYMin slice"
         aria-hidden="true"
-        className="absolute left-[-8%] right-[-8%] top-[-8%] bottom-[-8%] pointer-events-none opacity-[0.09]"
+        className="absolute left-[-8%] right-[-8%] top-[-8%] bottom-[-8%] pointer-events-none"
       >
-        <path
-          d="M611.049 2.89355C611.049 2.89355 666.549 196.894 818.049 196.894C861.929 196.894 894.049 168.394 889.049 123.894C884.639 84.6483 850.549 59.8936 818.049 66.3936C765.049 76.9936 743.549 164.894 836.549 242.894C929.549 320.894 1001.55 323.894 1082.05 323.894C1219.05 323.894 1355.05 508.894 1450.55 508.894"
+        <defs>
+          <path
+            id="ribbon-top"
+            d="M611.049 2.89355C611.049 2.89355 666.549 196.894 818.049 196.894C861.929 196.894 894.049 168.394 889.049 123.894C884.639 84.6483 850.549 59.8936 818.049 66.3936C765.049 76.9936 743.549 164.894 836.549 242.894C929.549 320.894 1001.55 323.894 1082.05 323.894C1219.05 323.894 1355.05 508.894 1450.55 508.894"
+          />
+        </defs>
+        <use
+          href="#ribbon-top"
           stroke="#1c1820"
           strokeWidth="21"
           fill="none"
+          opacity="0.09"
         />
+        <text fill="#1c1820" fontSize="13" letterSpacing="2" opacity="0.35" dominantBaseline="middle">
+          <textPath href="#ribbon-top">
+            {
+              "design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  "
+            }
+          </textPath>
+        </text>
       </svg>
 
       {/* ── Decorative line overlay — middle line ────────────────────────────── */}
@@ -97,14 +155,28 @@ export function HeroSection() {
         viewBox="0 0 1459 819"
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
-        className="absolute left-[-8%] right-[-8%] pointer-events-none opacity-[0.09]"
+        className="absolute left-[-8%] right-[-8%] pointer-events-none"
       >
-        <path
-          d="M25.0488 48.8936C130.438 119.179 62.5452 203.473 184.155 229.987C304.955 256.324 324.517 179.879 448.15 175.459C613.101 169.561 654.416 315.043 881.385 395.072C1030.36 447.599 1193.52 546.974 1339.96 491.622C1469.21 442.767 1446.05 442.894 1446.05 442.894"
+        <defs>
+          <path
+            id="ribbon-mid"
+            d="M25.0488 48.8936C130.438 119.179 62.5452 203.473 184.155 229.987C304.955 256.324 324.517 179.879 448.15 175.459C613.101 169.561 654.416 315.043 881.385 395.072C1030.36 447.599 1193.52 546.974 1339.96 491.622C1469.21 442.767 1446.05 442.894 1446.05 442.894"
+          />
+        </defs>
+        <use
+          href="#ribbon-mid"
           stroke="#1c1820"
           strokeWidth="21"
           fill="none"
+          opacity="0.09"
         />
+        <text fill="#1c1820" fontSize="13" letterSpacing="2" opacity="0.35" dominantBaseline="middle">
+          <textPath href="#ribbon-mid">
+            {
+              "ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  ship  ·  iterate  ·  prototype  ·  collaborate  ·  research  ·  "
+            }
+          </textPath>
+        </text>
       </svg>
 
       {/* ── Decorative line overlay — bottom line ──────────────────────────── */}
@@ -112,14 +184,28 @@ export function HeroSection() {
         viewBox="0 0 1459 819"
         preserveAspectRatio="xMidYMax slice"
         aria-hidden="true"
-        className="absolute left-[-8%] right-[-8%] bottom-[-8%] pointer-events-none opacity-[0.09]"
+        className="absolute left-[-8%] right-[-8%] bottom-[-8%] pointer-events-none"
       >
-        <path
-          d="M8.54883 812.394C141.549 625.894 256.549 577.893 371.549 619.393C486.549 660.894 618.773 751.726 832.049 707.894C1052.62 662.562 1261.55 366.86 1442.55 411.894"
+        <defs>
+          <path
+            id="ribbon-bot"
+            d="M8.54883 812.394C141.549 625.894 256.549 577.893 371.549 619.393C486.549 660.894 618.773 751.726 832.049 707.894C1052.62 662.562 1261.55 366.86 1442.55 411.894"
+          />
+        </defs>
+        <use
+          href="#ribbon-bot"
           stroke="#1c1820"
           strokeWidth="21"
           fill="none"
+          opacity="0.09"
         />
+        <text fill="#1c1820" fontSize="13" letterSpacing="2" opacity="0.35" dominantBaseline="middle">
+          <textPath href="#ribbon-bot">
+            {
+              "create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  create  ·  explore  ·  launch  ·  refine  ·  connect  ·  "
+            }
+          </textPath>
+        </text>
       </svg>
 
       {/* ── Right: visual ──────────────────────────────────────────────────── */}
