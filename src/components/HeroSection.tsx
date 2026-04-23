@@ -66,7 +66,6 @@ const NAME_TOKENS = [
 ] as const;
 
 const RIBBONS = [
-  { id: "ribbon-top", dur: 6000 },
   { id: "ribbon-mid", dur: 15000 },
   { id: "ribbon-bot", dur: 20000 },
 ];
@@ -129,6 +128,28 @@ export function HeroSection() {
           cancelled = true;
         });
       });
+
+      // Animate the rainbow gradient by translating it continuously
+      const grad = document.getElementById(
+        "rainbow-grad",
+      ) as SVGLinearGradientElement | null;
+      if (grad) {
+        const GRAD_PERIOD = 300; // SVG units — matches the gradient's x span
+        const GRAD_DUR = 2000; // ms per full cycle
+        let gradCancelled = false;
+        const gradT0 = performance.now();
+
+        const tickGrad = (now: number) => {
+          if (gradCancelled) return;
+          const offset = (((now - gradT0) % GRAD_DUR) / GRAD_DUR) * GRAD_PERIOD;
+          grad.setAttribute("gradientTransform", `translate(${offset} 0)`);
+          requestAnimationFrame(tickGrad);
+        };
+        requestAnimationFrame(tickGrad);
+        cancelFns.push(() => {
+          gradCancelled = true;
+        });
+      }
     };
 
     document.fonts.ready.then(start);
@@ -195,27 +216,32 @@ export function HeroSection() {
             id="ribbon-top"
             d="M611.049 2.89355C611.049 2.89355 666.549 196.894 818.049 196.894C861.929 196.894 894.049 168.394 889.049 123.894C884.639 84.6483 850.549 59.8936 818.049 66.3936C765.049 76.9936 743.549 164.894 836.549 242.894C929.549 320.894 1001.55 323.894 1082.05 323.894C1219.05 323.894 1355.05 508.894 1450.55 508.894"
           />
+          <linearGradient
+            id="rainbow-grad"
+            x1="611"
+            y1="0"
+            x2="911"
+            y2="0"
+            gradientUnits="userSpaceOnUse"
+            spreadMethod="repeat"
+          >
+            <stop offset="0%" stopColor="#C98585" />
+            <stop offset="14%" stopColor="#C9A070" />
+            <stop offset="29%" stopColor="#BFB565" />
+            <stop offset="43%" stopColor="#6FA88A" />
+            <stop offset="57%" stopColor="#6E8FB5" />
+            <stop offset="71%" stopColor="#8585B8" />
+            <stop offset="86%" stopColor="#A87AAA" />
+            <stop offset="100%" stopColor="#C98585" />
+          </linearGradient>
         </defs>
         <use
           href="#ribbon-top"
-          stroke="#1c1820"
+          stroke="url(#rainbow-grad)"
           strokeWidth="21"
           fill="none"
-          opacity="0.09"
+          opacity="0.82"
         />
-        <text
-          fill="#1c1820"
-          fontSize="13"
-          letterSpacing="2"
-          opacity="0.35"
-          dominantBaseline="middle"
-        >
-          <textPath href="#ribbon-top">
-            {
-              "design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  design  ·  engineering  ·  product  ·  craft  ·  build  ·  "
-            }
-          </textPath>
-        </text>
       </svg>
 
       {/* ── Decorative line overlay — middle line ────────────────────────────── */}
