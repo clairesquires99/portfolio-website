@@ -3,6 +3,7 @@ import { Footer } from "./components/Footer";
 import { HeroSection } from "./components/HeroSection";
 import { ProjectPage } from "./components/ProjectPage";
 import { ProjectsSection } from "./components/ProjectsSection";
+import { AnimationPhaseProvider } from "./context/AnimationPhaseContext";
 
 function Home() {
   return (
@@ -16,12 +17,14 @@ function Home() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/projects/:slug" element={<ProjectPage />} />
-      </Routes>
-    </BrowserRouter>
+    <AnimationPhaseProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/projects/:slug" element={<ProjectPage />} />
+        </Routes>
+      </BrowserRouter>
+    </AnimationPhaseProvider>
   );
 }
 

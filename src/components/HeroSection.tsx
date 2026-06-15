@@ -1,74 +1,112 @@
+import { motion } from "framer-motion";
 import { NotepadText } from "lucide-react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useAnimationPhase } from "../context/AnimationPhaseContext";
+import { RibbonCanvas } from "./ribbon/RibbonCanvas";
+import { RibbonMid } from "./ribbon/RibbonMid";
+import { RibbonTop } from "./ribbon/RibbonTop";
 
-const REPS = 6;
-
-const CODE_TOKENS = [
-  { text: "def ", color: "#f92672" },
-  { text: "build", color: "#a6e22e" },
-  { text: "(self):  ", color: "#f8f8f2" },
-  { text: "·  ", color: "#75715e" },
-  { text: "return ", color: "#f92672" },
-  { text: "self.output  ", color: "#f8f8f2" },
-  { text: "·  ", color: "#75715e" },
-  { text: "if ", color: "#f92672" },
-  { text: "__name__ ", color: "#f8f8f2" },
-  { text: "== ", color: "#f92672" },
-  { text: '"__main__"', color: "#e6db74" },
-  { text: ":  ", color: "#f8f8f2" },
-  { text: "·  ", color: "#75715e" },
-  { text: "import ", color: "#f92672" },
-  { text: "asyncio  ", color: "#f8f8f2" },
-  { text: "·  ", color: "#75715e" },
-  { text: "class ", color: "#f92672" },
-  { text: "Pipeline", color: "#a6e22e" },
-  { text: ":  ", color: "#f8f8f2" },
-  { text: "·  ", color: "#75715e" },
-  { text: "await ", color: "#f92672" },
-  { text: "ship", color: "#a6e22e" },
-  { text: "(feature)  ", color: "#f8f8f2" },
-  { text: "·  ", color: "#75715e" },
-] as const;
-
-const NAME_TOKENS = [
-  { text: "Amara", font: "Caveat", size: 16 },
-  { text: "  ·  ", font: "Caveat", size: 12 },
-  { text: "Yuki", font: "Dancing Script", size: 15 },
-  { text: "  ·  ", font: "Dancing Script", size: 12 },
-  { text: "Sofia", font: "Kalam", size: 13 },
-  { text: "  ·  ", font: "Kalam", size: 12 },
-  { text: "Priya", font: "Permanent Marker", size: 10 },
-  { text: "  ·  ", font: "Permanent Marker", size: 10 },
-  { text: "Fatima", font: "Indie Flower", size: 13 },
-  { text: "  ·  ", font: "Indie Flower", size: 12 },
-  { text: "Lars", font: "Shadows Into Light", size: 15 },
-  { text: "  ·  ", font: "Shadows Into Light", size: 13 },
-  { text: "Mei", font: "Patrick Hand", size: 13 },
-  { text: "  ·  ", font: "Patrick Hand", size: 12 },
-  { text: "Kofi", font: "Sacramento", size: 19 },
-  { text: "  ·  ", font: "Sacramento", size: 14 },
-  { text: "Isabel", font: "Caveat", size: 15 },
-  { text: "  ·  ", font: "Caveat", size: 12 },
-  { text: "Nadia", font: "Dancing Script", size: 15 },
-  { text: "  ·  ", font: "Dancing Script", size: 12 },
-  { text: "Kenji", font: "Kalam", size: 13 },
-  { text: "  ·  ", font: "Kalam", size: 12 },
-  { text: "Ingrid", font: "Permanent Marker", size: 10 },
-  { text: "  ·  ", font: "Permanent Marker", size: 10 },
-  { text: "Ravi", font: "Indie Flower", size: 13 },
-  { text: "  ·  ", font: "Indie Flower", size: 12 },
-  { text: "Aisha", font: "Shadows Into Light", size: 15 },
-  { text: "  ·  ", font: "Shadows Into Light", size: 13 },
-  { text: "Marcus", font: "Patrick Hand", size: 13 },
-  { text: "  ·  ", font: "Patrick Hand", size: 12 },
-  { text: "Zara", font: "Sacramento", size: 19 },
-  { text: "  ·  ", font: "Sacramento", size: 14 },
-] as const;
-
-const RIBBONS = [
-  { id: "ribbon-mid", dur: 15000 },
-  { id: "ribbon-bot", dur: 20000 },
+// Chunks reveal together; the chunk index also drives the animation phase:
+// chunk 1 ("engineering,") -> phase 1, chunk 2 ("design,") -> phase 2,
+// chunk 3 ("and people.") -> phase 3.
+const CHUNKS = [
+  "Building at the intersection of",
+  "engineering,",
+  "design,",
+  "and people.",
 ];
+
+// Explicit per-chunk delays (ms) before each chunk starts revealing.
+const CHUNK_TIMES = [300, 1500, 3000, 5000];
+
+const LETTER_STAGGER = 0.03;
+
+// Staggers every letter motion.span across the whole chunk (propagates
+// through the plain <span> word wrappers below) for a continuous
+// left-to-right reveal, rather than staggering per-word in parallel.
+const chunkVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: LETTER_STAGGER },
+  },
+};
+
+const letterVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.2, ease: "easeOut" as const },
+  },
+};
+
+function AnimatedSubtitle() {
+  const { setPhase } = useAnimationPhase();
+  const [visibleChunks, setVisibleChunks] = useState(0);
+
+  useEffect(() => {
+    const timers = CHUNKS.map((_, chunkIndex) =>
+      setTimeout(() => {
+        setVisibleChunks((c) => Math.max(c, chunkIndex + 1));
+
+        if (chunkIndex === 1) setPhase(1);
+        else if (chunkIndex === 2) setPhase(2);
+        else if (chunkIndex === 3) setPhase(3);
+      }, CHUNK_TIMES[chunkIndex]),
+    );
+
+    return () => timers.forEach(clearTimeout);
+  }, [setPhase]);
+
+  return (
+    <>
+      {CHUNKS.map((chunk, chunkIndex) => {
+        const words = chunk.split(" ");
+        const isVisible = chunkIndex < visibleChunks;
+        const isLastChunk = chunkIndex === CHUNKS.length - 1;
+
+        return (
+          <motion.span
+            key={chunkIndex}
+            style={{ display: "inline" }}
+            variants={chunkVariants}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+          >
+            {words.map((word, wordIndex) => {
+              const isKeyword =
+                word.startsWith("engineering") ||
+                word.startsWith("design") ||
+                word.startsWith("people");
+              const isLastWord = isLastChunk && wordIndex === words.length - 1;
+
+              return (
+                <React.Fragment key={wordIndex}>
+                  <span
+                    className={
+                      isKeyword ? "font-light text-hero-name" : undefined
+                    }
+                    style={{ display: "inline-block" }}
+                  >
+                    {word.split("").map((char, j) => (
+                      <motion.span
+                        key={j}
+                        style={{ display: "inline-block" }}
+                        variants={letterVariants}
+                      >
+                        {char}
+                      </motion.span>
+                    ))}
+                  </span>
+                  {isLastWord ? "" : " "}
+                </React.Fragment>
+              );
+            })}
+          </motion.span>
+        );
+      })}
+    </>
+  );
+}
 
 function GitHubIcon({ size = 20 }: { size?: number }) {
   return (
@@ -103,32 +141,6 @@ export function HeroSection() {
     const cancelFns: (() => void)[] = [];
 
     const start = () => {
-      RIBBONS.forEach(({ id, dur }) => {
-        const tp = document.querySelector(
-          `textPath[href="#${id}"]`,
-        ) as SVGTextPathElement | null;
-        if (!tp) return;
-
-        const totalLen = tp.getComputedTextLength();
-        if (totalLen === 0) return;
-        const cycleLen = totalLen / REPS;
-
-        let cancelled = false;
-        const t0 = performance.now();
-
-        const tick = (now: number) => {
-          if (cancelled) return;
-          const offset = cycleLen * (((now - t0) % dur) / dur - 1);
-          tp.setAttribute("startOffset", String(offset));
-          requestAnimationFrame(tick);
-        };
-
-        requestAnimationFrame(tick);
-        cancelFns.push(() => {
-          cancelled = true;
-        });
-      });
-
       // Animate the rainbow gradient by translating it continuously
       const grad = document.getElementById(
         "rainbow-grad",
@@ -188,137 +200,27 @@ export function HeroSection() {
         </a>
       </div>
 
-      {/* ── Left: text ─────────────────────────────────────────────────────── */}
-      <div className="flex-[0_0_50%] flex flex-col justify-center py-20 pl-30 pr-8">
-        <p className="mb-4 font-jost text-lg text-hero-name tracking-[0.1em] uppercase">
+      {/* ── Right: text ────────────────────────────────────────────────────── */}
+      <div className="flex-[0_0_50%] ml-auto flex flex-col justify-center py-20 pl-8 pr-30">
+        <p className="mb-4 font-sans text-lg text-hero-name tracking-[0.1em] uppercase">
           Product Engineer
         </p>
         <h1 className="mb-7 font-h1 font-light italic leading-[0.88] text-[clamp(68px,7vw,100px)] text-hero-name tracking-[-0.01em] antialiased">
           Claire Squires
         </h1>
         <p className="text-[clamp(20px,1.5vw,30px)] leading-[1.65] text-muted tracking-[0.01em] font-h2 font-extralight">
-          Building at the intersection of{" "}
-          <span className="font-light text-hero-name">engineering</span>,{" "}
-          <span className="font-light text-hero-name">design</span> and{" "}
-          <span className="font-light text-hero-name">people</span>.
+          <AnimatedSubtitle />
         </p>
       </div>
 
-      {/* ── Decorative line overlay — top line ────────────────────────────── */}
-      <svg
-        viewBox="0 0 1459 819"
-        preserveAspectRatio="xMidYMin slice"
-        aria-hidden="true"
-        className="absolute left-[-8%] right-[-8%] top-[-8%] bottom-[-8%] pointer-events-none"
-      >
-        <defs>
-          <path
-            id="ribbon-top"
-            d="M611.049 2.89355C611.049 2.89355 666.549 196.894 818.049 196.894C861.929 196.894 894.049 168.394 889.049 123.894C884.639 84.6483 850.549 59.8936 818.049 66.3936C765.049 76.9936 743.549 164.894 836.549 242.894C929.549 320.894 1001.55 323.894 1082.05 323.894C1219.05 323.894 1355.05 508.894 1450.55 508.894"
-          />
-          <linearGradient
-            id="rainbow-grad"
-            x1="611"
-            y1="0"
-            x2="911"
-            y2="0"
-            gradientUnits="userSpaceOnUse"
-            spreadMethod="repeat"
-          >
-            <stop offset="0%" stopColor="#C98585" />
-            <stop offset="14%" stopColor="#C9A070" />
-            <stop offset="29%" stopColor="#BFB565" />
-            <stop offset="43%" stopColor="#6FA88A" />
-            <stop offset="57%" stopColor="#6E8FB5" />
-            <stop offset="71%" stopColor="#8585B8" />
-            <stop offset="86%" stopColor="#A87AAA" />
-            <stop offset="100%" stopColor="#C98585" />
-          </linearGradient>
-        </defs>
-        <use
-          href="#ribbon-top"
-          stroke="url(#rainbow-grad)"
-          strokeWidth="21"
-          fill="none"
-          opacity="0.82"
-        />
-      </svg>
+      {/* ── Decorative line overlay — top line (people icons) ──────────────── */}
+      <RibbonTop />
 
-      {/* ── Decorative line overlay — middle line ────────────────────────────── */}
-      <svg
-        viewBox="0 0 1459 819"
-        preserveAspectRatio="xMidYMid slice"
-        aria-hidden="true"
-        className="absolute left-[-8%] right-[-8%] pointer-events-none"
-      >
-        <defs>
-          <path
-            id="ribbon-mid"
-            d="M25.0488 48.8936C130.438 119.179 62.5452 203.473 184.155 229.987C304.955 256.324 324.517 179.879 448.15 175.459C613.101 169.561 654.416 315.043 881.385 395.072C1030.36 447.599 1193.52 546.974 1339.96 491.622C1469.21 442.767 1446.05 442.894 1446.05 442.894"
-          />
-        </defs>
-        <use
-          href="#ribbon-mid"
-          stroke="#e9e3d7a4"
-          strokeWidth="21"
-          fill="none"
-          opacity="0.9"
-        />
-        <text fill="#2d1f0d" opacity="0.78" dominantBaseline="middle">
-          <textPath href="#ribbon-mid">
-            {Array.from({ length: REPS }, (_, i) =>
-              NAME_TOKENS.map((token, j) => (
-                <tspan
-                  key={`${i}-${j}`}
-                  fontFamily={`'${token.font}', cursive`}
-                  fontSize={token.size}
-                >
-                  {token.text}
-                </tspan>
-              )),
-            )}
-          </textPath>
-        </text>
-      </svg>
+      {/* ── Decorative line overlay — middle line (engineering / code) ──────── */}
+      <RibbonMid />
 
-      {/* ── Decorative line overlay — bottom line (engineering / code) ──────── */}
-      <svg
-        viewBox="0 0 1459 819"
-        preserveAspectRatio="xMidYMax slice"
-        aria-hidden="true"
-        className="absolute left-[-8%] right-[-8%] bottom-[-8%] pointer-events-none"
-      >
-        <defs>
-          <path
-            id="ribbon-bot"
-            d="M8.54883 812.394C141.549 625.894 256.549 577.893 371.549 619.393C486.549 660.894 618.773 751.726 832.049 707.894C1052.62 662.562 1261.55 366.86 1442.55 411.894"
-          />
-        </defs>
-        <use
-          href="#ribbon-bot"
-          stroke="#1e1e1e"
-          strokeWidth="21"
-          fill="none"
-          opacity="0.88"
-        />
-        <text
-          fontSize="11"
-          letterSpacing="1.5"
-          fontWeight="600"
-          dominantBaseline="middle"
-          fontFamily="'SF Mono', 'Fira Code', Consolas, 'Courier New', monospace"
-        >
-          <textPath href="#ribbon-bot">
-            {Array.from({ length: REPS }, (_, i) =>
-              CODE_TOKENS.map((token, j) => (
-                <tspan key={`${i}-${j}`} fill={token.color}>
-                  {token.text}
-                </tspan>
-              )),
-            )}
-          </textPath>
-        </text>
-      </svg>
+      {/* ── Decorative line overlay — bottom line (color ribbon) ─────────────── */}
+      <RibbonCanvas />
 
       {/* ── Right: visual ──────────────────────────────────────────────────── */}
     </section>

@@ -31,7 +31,7 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     name: "Hearth",
-    dateRange: "Jan 2026 – Present",
+    dateRange: "Jan 2026 – May 2026",
     category: "Startup",
     why: "As a child who moved overseas, I often think of the conversations I want to have with my parents about their futures. But these conversations are hard. So I wondered, could I build something that helps?",
     description:
@@ -130,7 +130,7 @@ export const PROJECTS: Project[] = [
     dateRange: "Apr 2020",
     category: "Hackathon",
     award: "Most Creative Topic — DataFest @ EDI Hackathon",
-    why: "Stuck and isolated in the middle of the COVID pandemic, my friends and I decided to put our skills to use to visualise the impact of COVID, specifically on education, as the world moved to remote learning on mass for the first time.",
+    why: "Stuck and isolated in the middle of the COVID pandemic, my friends and I decided to put our skills to use to visualise the impact of COVID. As the world moved to remote learning on mass for the first time, we chose to focus on education specifically.",
     description:
       "As part of the DataFest hackathon, we built an interactive R Shiny app exploring student access to devices and internet across the US during the first weeks of COVID-19. Built on US Census Bureau Household Pulse Survey data, it lets you explore how income, food sufficiency, and other household factors shaped whether kids could actually learn online.",
     collaborators: [
