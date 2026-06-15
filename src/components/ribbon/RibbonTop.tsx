@@ -75,7 +75,7 @@ export function RibbonTop() {
               strokeDasharray={pathLength}
               initial={{ strokeDashoffset: pathLength }}
               animate={{ strokeDashoffset: revealed ? 0 : pathLength }}
-              transition={{ duration: 2.5, ease: "easeInOut" }}
+              transition={{ duration: 1.0, ease: "easeInOut" }}
             />
           )}
         </mask>
