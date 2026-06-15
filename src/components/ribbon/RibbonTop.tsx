@@ -12,6 +12,7 @@ import {
   PiWheelchairMotionLight,
 } from "react-icons/pi";
 import { useAnimationPhase } from "../../context/AnimationPhaseContext";
+import { useHoveredRibbon } from "../../context/HoveredRibbonContext";
 
 const PATH_D =
   "M901.783 0 C797.99 87.2002 820.265 249.317 683.783 277.861C541.195 307.683 481.715 189.866 335.783 184.861C196.465 180.083 117.959 352.791 0 459.361";
@@ -45,6 +46,7 @@ const ICON_SEQUENCE = [...SHUFFLED, ...SHUFFLED, ...SHUFFLED];
 
 export function RibbonTop() {
   const { phase } = useAnimationPhase();
+  const { setHoveredRibbon } = useHoveredRibbon();
   const pathRef = useRef<SVGPathElement>(null);
   const [pathLength, setPathLength] = useState(0);
 
@@ -97,6 +99,16 @@ export function RibbonTop() {
           </g>
         ))}
       </g>
+      <path
+        d={PATH_D}
+        fill="none"
+        stroke="transparent"
+        strokeWidth={28}
+        pointerEvents="stroke"
+        className="cursor-pointer"
+        onMouseEnter={() => setHoveredRibbon("people")}
+        onMouseLeave={() => setHoveredRibbon(null)}
+      />
     </svg>
   );
 }

@@ -3,8 +3,9 @@ import { animate, motionValue } from "framer-motion";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useAnimationPhase } from "../../context/AnimationPhaseContext";
+import { useHoveredRibbon } from "../../context/HoveredRibbonContext";
 import { RIBBON_MAX_WIDTH } from "../../data/ribbonProfile";
-import { createRibbonGeometry } from "./ribbonGeometry";
+import { createRibbonGeometry, createRibbonHitGeometry } from "./ribbonGeometry";
 import { createRibbonProfileTexture } from "./ribbonProfileTexture";
 
 // How far ahead of the leading edge (in t-space) the taper-to-zero ramp
@@ -74,11 +75,13 @@ export function RibbonRiver({
   resolution = 1024,
 }: RibbonRiverProps) {
   const geometry = useMemo(() => createRibbonGeometry(), []);
+  const hitGeometry = useMemo(() => createRibbonHitGeometry(), []);
   const texture = useMemo(() => createRibbonProfileTexture(resolution), [resolution]);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const timeOffsetRef = useRef(0);
   const hasRevealedRef = useRef(false);
   const { phase } = useAnimationPhase();
+  const { setHoveredRibbon } = useHoveredRibbon();
 
   const uniforms = useMemo(
     () => ({
@@ -117,14 +120,32 @@ export function RibbonRiver({
   }, [phase]);
 
   return (
-    <mesh geometry={geometry}>
-      <shaderMaterial
-        ref={materialRef}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
+    <>
+      <mesh geometry={geometry}>
+        <shaderMaterial
+          ref={materialRef}
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={uniforms}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      {/* Invisible, generously-sized strip used purely for hover detection —
+          the visual ribbon's geometry is collapsed to a zero-width centerline
+          since its width is displaced on the GPU, so it can't be raycast. */}
+      <mesh
+        geometry={hitGeometry}
+        onPointerOver={() => {
+          setHoveredRibbon("design");
+          document.body.style.cursor = "pointer";
+        }}
+        onPointerOut={() => {
+          setHoveredRibbon(null);
+          document.body.style.cursor = "default";
+        }}
+      >
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
+    </>
   );
 }

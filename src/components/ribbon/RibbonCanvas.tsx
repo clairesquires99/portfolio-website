@@ -49,7 +49,7 @@ export function RibbonCanvas() {
   return (
     <Canvas
       gl={{ alpha: true, antialias: true }}
-      className="absolute left-[-8%] right-[-8%] pointer-events-none"
+      className="absolute left-[-8%] right-[-8%]"
       style={{
         position: "absolute",
         width: "auto",

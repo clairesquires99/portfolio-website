@@ -2,6 +2,10 @@ import { motion } from "framer-motion";
 import { NotepadText } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useAnimationPhase } from "../context/AnimationPhaseContext";
+import {
+  HoveredRibbonProvider,
+  useHoveredRibbon,
+} from "../context/HoveredRibbonContext";
 import { RibbonCanvas } from "./ribbon/RibbonCanvas";
 import { RibbonMid } from "./ribbon/RibbonMid";
 import { RibbonTop } from "./ribbon/RibbonTop";
@@ -41,6 +45,7 @@ const letterVariants = {
 
 function AnimatedSubtitle() {
   const { setPhase } = useAnimationPhase();
+  const { hoveredRibbon } = useHoveredRibbon();
   const [visibleChunks, setVisibleChunks] = useState(0);
 
   useEffect(() => {
@@ -73,19 +78,26 @@ function AnimatedSubtitle() {
             animate={isVisible ? "visible" : "hidden"}
           >
             {words.map((word, wordIndex) => {
-              const isKeyword =
-                word.startsWith("engineering") ||
-                word.startsWith("design") ||
-                word.startsWith("people");
+              const keyword = word.startsWith("engineering")
+                ? "engineering"
+                : word.startsWith("design")
+                  ? "design"
+                  : word.startsWith("people")
+                    ? "people"
+                    : null;
               const isLastWord = isLastChunk && wordIndex === words.length - 1;
 
               return (
                 <React.Fragment key={wordIndex}>
-                  <span
-                    className={
-                      isKeyword ? "font-light text-hero-name" : undefined
-                    }
+                  <motion.span
+                    className={keyword ? "text-hero-name" : undefined}
                     style={{ display: "inline-block" }}
+                    animate={
+                      keyword
+                        ? { fontWeight: hoveredRibbon === keyword ? 800 : 300 }
+                        : undefined
+                    }
+                    transition={{ duration: 0.2, ease: "easeOut" }}
                   >
                     {word.split("").map((char, j) => (
                       <motion.span
@@ -96,7 +108,7 @@ function AnimatedSubtitle() {
                         {char}
                       </motion.span>
                     ))}
-                  </span>
+                  </motion.span>
                   {isLastWord ? "" : " "}
                 </React.Fragment>
               );
@@ -169,60 +181,64 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-svh flex bg-hero-bg overflow-hidden">
-      {/* ── Social links ───────────────────────────────────────────────────── */}
-      <div className="absolute top-8 right-10 flex items-center gap-5">
-        <a
-          href="https://github.com/clairesquires99"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-          className="text-hero-name opacity-70 hover:opacity-100 transition-opacity"
-        >
-          <GitHubIcon size={22} />
-        </a>
-        <a
-          href="https://linkedin.com/in/clairesquires"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          className="text-hero-name opacity-70 hover:opacity-100 transition-opacity"
-        >
-          <LinkedInIcon size={22} />
-        </a>
-        <a
-          href="#"
-          title="View resume"
-          aria-label="View resume"
-          className="text-hero-name opacity-70 hover:opacity-100 transition-opacity"
-        >
-          <NotepadText size={22} strokeWidth={1.75} />
-        </a>
-      </div>
+    <HoveredRibbonProvider>
+      <section className="relative min-h-svh flex bg-hero-bg overflow-hidden">
+        {/* ── Social links ───────────────────────────────────────────────────── */}
+        <div className="absolute top-8 right-10 flex items-center gap-5">
+          <a
+            href="https://github.com/clairesquires99"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="text-hero-name opacity-70 hover:opacity-100 transition-opacity"
+          >
+            <GitHubIcon size={22} />
+          </a>
+          <a
+            href="https://linkedin.com/in/clairesquires"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="text-hero-name opacity-70 hover:opacity-100 transition-opacity"
+          >
+            <LinkedInIcon size={22} />
+          </a>
+          <a
+            href="#"
+            title="View resume"
+            aria-label="View resume"
+            className="text-hero-name opacity-70 hover:opacity-100 transition-opacity"
+          >
+            <NotepadText size={22} strokeWidth={1.75} />
+          </a>
+        </div>
 
-      {/* ── Right: text ────────────────────────────────────────────────────── */}
-      <div className="flex-[0_0_50%] ml-auto flex flex-col justify-center py-20 pl-8 pr-30">
-        <p className="mb-4 font-sans text-lg text-hero-name tracking-[0.1em] uppercase">
-          Product Engineer
-        </p>
-        <h1 className="mb-7 font-h1 font-light italic leading-[0.88] text-[clamp(68px,7vw,100px)] text-hero-name tracking-[-0.01em] antialiased">
-          Claire Squires
-        </h1>
-        <p className="text-[clamp(20px,1.5vw,30px)] leading-[1.65] text-muted tracking-[0.01em] font-h2 font-extralight">
-          <AnimatedSubtitle />
-        </p>
-      </div>
+        {/* ── Right: text ────────────────────────────────────────────────────── */}
+        <div className="flex-[0_0_50%] ml-auto flex flex-col justify-center py-20 pl-8 pr-20">
+          <p className="mb-4 font-sans text-lg text-hero-name tracking-[0.1em] uppercase">
+            Product Engineer
+          </p>
+          <h1 className="mb-7 font-h1 font-light italic leading-[0.88] text-[clamp(68px,7vw,100px)] text-hero-name tracking-[-0.01em] antialiased">
+            Claire Squires
+          </h1>
+          <p className="text-[clamp(20px,1.5vw,30px)] leading-[1.65] text-muted tracking-[0.01em] font-h2 font-extralight">
+            <AnimatedSubtitle />
+          </p>
+        </div>
 
-      {/* ── Decorative line overlay — top line (people icons) ──────────────── */}
-      <RibbonTop />
+        {/* ── Decorative line overlay — bottom line (color ribbon) ─────────────── */}
+        {/* Rendered first so the SVG ribbons above sit on top of it in the DOM
+            stacking order, letting their hover overlays take pointer priority. */}
+        <RibbonCanvas />
 
-      {/* ── Decorative line overlay — middle line (engineering / code) ──────── */}
-      <RibbonMid />
+        {/* ── Decorative line overlay — top line (people icons) ──────────────── */}
+        <RibbonTop />
 
-      {/* ── Decorative line overlay — bottom line (color ribbon) ─────────────── */}
-      <RibbonCanvas />
+        {/* ── Decorative line overlay — middle line (engineering / code) ──────── */}
+        <RibbonMid />
 
-      {/* ── Right: visual ──────────────────────────────────────────────────── */}
-    </section>
+        {/* ── Right: visual ──────────────────────────────────────────────────── */}
+      </section>
+    </HoveredRibbonProvider>
   );
 }

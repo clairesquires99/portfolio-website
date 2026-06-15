@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useAnimationPhase } from "../../context/AnimationPhaseContext";
+import { useHoveredRibbon } from "../../context/HoveredRibbonContext";
 
 const REPS = 6;
 
@@ -24,6 +25,7 @@ const RIBBON_REPEATS = REPS;
 
 export function RibbonMid() {
   const { phase } = useAnimationPhase();
+  const { setHoveredRibbon } = useHoveredRibbon();
   const pathRef = useRef<SVGPathElement>(null);
   const textPathRef = useRef<SVGTextPathElement>(null);
   const [pathLength, setPathLength] = useState(0);
@@ -103,6 +105,16 @@ export function RibbonMid() {
           </textPath>
         </text>
       </g>
+      <path
+        d={PATH_D}
+        fill="none"
+        stroke="transparent"
+        strokeWidth={32}
+        pointerEvents="stroke"
+        className="cursor-pointer"
+        onMouseEnter={() => setHoveredRibbon("engineering")}
+        onMouseLeave={() => setHoveredRibbon(null)}
+      />
     </svg>
   );
 }

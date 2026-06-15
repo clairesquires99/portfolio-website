@@ -1,5 +1,19 @@
 import * as THREE from "three";
-import { RIBBON_SAMPLES } from "../../data/ribbonProfile";
+import { RIBBON_MAX_WIDTH, RIBBON_SAMPLES } from "../../data/ribbonProfile";
+
+/** Builds the triangle-strip index buffer shared by the ribbon strip geometries. */
+function buildStripIndices(n: number): number[] {
+  const indices: number[] = [];
+  for (let i = 0; i < n - 1; i++) {
+    const topA = i * 2;
+    const botA = i * 2 + 1;
+    const topB = (i + 1) * 2;
+    const botB = (i + 1) * 2 + 1;
+    indices.push(topA, botA, topB);
+    indices.push(botA, botB, topB);
+  }
+  return indices;
+}
 
 /**
  * Builds a flat triangle-strip plane following the ribbon's centerline.
@@ -36,22 +50,43 @@ export function createRibbonGeometry(): THREE.BufferGeometry {
     }
   }
 
-  const indices: number[] = [];
-  for (let i = 0; i < n - 1; i++) {
-    const topA = i * 2;
-    const botA = i * 2 + 1;
-    const topB = (i + 1) * 2;
-    const botB = (i + 1) * 2 + 1;
-    indices.push(topA, botA, topB);
-    indices.push(botA, botB, topB);
-  }
-
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute("aNormal", new THREE.BufferAttribute(normals, 2));
   geometry.setAttribute("aSide", new THREE.BufferAttribute(sides, 1));
   geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
-  geometry.setIndex(indices);
+  geometry.setIndex(buildStripIndices(n));
+
+  return geometry;
+}
+
+/**
+ * Builds an invisible hit-test strip with real width (unlike the visual
+ * ribbon geometry, whose width is displaced on the GPU and so is collapsed
+ * to a zero-area centerline for raycasting purposes). Used to give the
+ * color ribbon a generous, hoverable area.
+ */
+export function createRibbonHitGeometry(
+  halfWidth: number = RIBBON_MAX_WIDTH / 2,
+): THREE.BufferGeometry {
+  const n = RIBBON_SAMPLES.length;
+  const positions = new Float32Array(n * 2 * 3);
+
+  for (let i = 0; i < n; i++) {
+    const s = RIBBON_SAMPLES[i];
+
+    for (let side = 0; side < 2; side++) {
+      const idx = i * 2 + side;
+      const sign = side === 0 ? 1 : -1;
+      positions[idx * 3 + 0] = s.x + s.nx * halfWidth * sign;
+      positions[idx * 3 + 1] = s.y + s.ny * halfWidth * sign;
+      positions[idx * 3 + 2] = 0;
+    }
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  geometry.setIndex(buildStripIndices(n));
 
   return geometry;
 }
