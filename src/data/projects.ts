@@ -1,4 +1,3 @@
-import books from "../assets/books.jpg";
 import classroom from "../assets/classroom.jpg";
 import fruits from "../assets/fruits.jpg";
 import hearth from "../assets/Heath.jpg";
@@ -106,25 +105,25 @@ export const PROJECTS: Project[] = [
     ],
     image: tpf,
   },
-  {
-    name: "Recommenda",
-    dateRange: "Nov 2022 – Dec 2022",
-    category: "Personal Project",
-    why: "Continuously recommending books to my friends, and being frustrated by not having a central sharing place for all the books, music and movies I wanted to share, I built my own solution.",
-    description:
-      "A social recommendation app for books, films, music, and podcasts. You follow friends, they send you picks, everything lives in one place.",
-    collaborators: [],
-    stack: [
-      "Python",
-      "Flask",
-      "Bootstrap",
-      "SQLAlchemy",
-      "Google Books API",
-      "TMDB API",
-      "Spotify API",
-    ],
-    image: books,
-  },
+  // {
+  //   name: "Recommenda",
+  //   dateRange: "Nov 2022 – Dec 2022",
+  //   category: "Personal Project",
+  //   why: "Continuously recommending books to my friends, and being frustrated by not having a central sharing place for all the books, music and movies I wanted to share, I built my own solution.",
+  //   description:
+  //     "A social recommendation app for books, films, music, and podcasts. You follow friends, they send you picks, everything lives in one place.",
+  //   collaborators: [],
+  //   stack: [
+  //     "Python",
+  //     "Flask",
+  //     "Bootstrap",
+  //     "SQLAlchemy",
+  //     "Google Books API",
+  //     "TMDB API",
+  //     "Spotify API",
+  //   ],
+  //   image: books,
+  // },
   {
     name: "Covid and the Classroom",
     dateRange: "Apr 2020",
