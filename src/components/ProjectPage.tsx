@@ -1,4 +1,5 @@
 import { ArrowLeft, ArrowUpRight, Trophy } from "lucide-react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PROJECTS } from "../data/projects";
 import { toSlug } from "../utils/slugify";
@@ -6,6 +7,10 @@ import { toSlug } from "../utils/slugify";
 export function ProjectPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
   const project = PROJECTS.find((p) => toSlug(p.name) === slug);
 
   if (!project) {
@@ -71,7 +76,7 @@ export function ProjectPage() {
         </div>
 
         {/* Mobile-only image strip */}
-        <div className="md:hidden w-full h-25 mb-8 rounded-sm overflow-hidden">
+        <div className="md:hidden w-full h-25 mb-8 overflow-hidden">
           <img
             src={project.image}
             alt={project.name}
