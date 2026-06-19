@@ -204,8 +204,9 @@ export function HeroSection() {
             <LinkedInIcon size={22} />
           </a>
           <a
-            href="#"
-            title="View resume"
+            href="/Claire_Squires_Resume_June2026.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="View resume"
             className="text-hero-name opacity-70 hover:opacity-100 transition-opacity"
           >
