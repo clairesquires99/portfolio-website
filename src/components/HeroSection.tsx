@@ -184,7 +184,7 @@ export function HeroSection() {
     <HoveredRibbonProvider>
       <section className="relative min-h-svh flex bg-hero-bg overflow-hidden">
         {/* ── Social links ───────────────────────────────────────────────────── */}
-        <div className="absolute top-8 right-10 flex items-center gap-5">
+        <div className="absolute top-4 right-4 sm:top-8 sm:right-10 flex items-center gap-5 z-10">
           <a
             href="https://github.com/clairesquires99"
             target="_blank"
@@ -204,8 +204,9 @@ export function HeroSection() {
             <LinkedInIcon size={22} />
           </a>
           <a
-            href="#"
-            title="View resume"
+            href="/Claire_Squires_Resume_June2026.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="View resume"
             className="text-hero-name opacity-70 hover:opacity-100 transition-opacity"
           >
@@ -214,7 +215,7 @@ export function HeroSection() {
         </div>
 
         {/* ── Right: text ────────────────────────────────────────────────────── */}
-        <div className="flex-[0_0_50%] ml-auto flex flex-col justify-center py-20 pl-8 pr-20">
+        <div className="relative z-10 w-full sm:flex-[0_0_50%] sm:ml-auto flex flex-col justify-center py-12 pl-6 pr-6 sm:py-20 sm:pl-8 sm:pr-20">
           <p className="mb-4 font-sans text-lg text-hero-name tracking-[0.1em] uppercase">
             Product Engineer
           </p>

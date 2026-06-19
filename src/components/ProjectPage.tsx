@@ -17,12 +17,12 @@ export function ProjectPage() {
   }
 
   return (
-    <div className="min-h-svh bg-hero-bg flex">
+    <div className="min-h-svh bg-hero-bg flex flex-col md:flex-row">
       {/* Content */}
-      <div className="flex-1 px-14 py-12 max-w-3xl">
+      <div className="flex-1 px-5 py-8 sm:px-10 sm:py-10 md:px-14 md:py-12 max-w-3xl">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-2 font-h2 font-light text-[13px] text-muted hover:text-hero-name transition-colors mb-10 cursor-pointer"
+          className="inline-flex items-center gap-2 font-h2 font-light text-[13px] text-muted hover:text-hero-name transition-colors mb-7 sm:mb-10 cursor-pointer"
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           All projects
@@ -44,7 +44,7 @@ export function ProjectPage() {
           )}
         </div>
 
-        <div className="flex items-baseline justify-between gap-6 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 sm:gap-6 mb-4">
           <h1 className="font-h1 font-light italic text-[clamp(40px,5vw,64px)] text-hero-name tracking-[-0.01em] leading-none">
             {project.name}
           </h1>
@@ -68,6 +68,15 @@ export function ProjectPage() {
               ))}
             </div>
           )}
+        </div>
+
+        {/* Mobile-only image strip */}
+        <div className="md:hidden w-full h-25 mb-8 rounded-sm overflow-hidden">
+          <img
+            src={project.image}
+            alt={project.name}
+            className="w-full h-full object-cover"
+          />
         </div>
 
         <section className="mb-8">
@@ -139,8 +148,8 @@ export function ProjectPage() {
         </div>
       </div>
 
-      {/* Image panel */}
-      <div className="flex-1 sticky top-0 h-svh">
+      {/* Image panel — desktop only */}
+      <div className="hidden md:flex-1 md:block md:sticky md:top-0 md:h-svh">
         <img
           src={project.image}
           alt={project.name}
