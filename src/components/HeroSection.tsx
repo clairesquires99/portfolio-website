@@ -184,7 +184,7 @@ export function HeroSection() {
     <HoveredRibbonProvider>
       <section className="relative min-h-svh flex bg-hero-bg overflow-hidden">
         {/* ── Social links ───────────────────────────────────────────────────── */}
-        <div className="absolute top-8 right-10 flex items-center gap-5">
+        <div className="absolute top-8 right-10 flex items-center gap-5 z-10">
           <a
             href="https://github.com/clairesquires99"
             target="_blank"
