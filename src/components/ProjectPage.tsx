@@ -71,7 +71,7 @@ export function ProjectPage() {
         </div>
 
         {/* Mobile-only image strip */}
-        <div className="md:hidden w-full h-25 mb-8 rounded-sm overflow-hidden">
+        <div className="md:hidden w-full h-25 mb-8 overflow-hidden">
           <img
             src={project.image}
             alt={project.name}
