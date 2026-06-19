@@ -47,7 +47,7 @@ function MailIcon({ size = 18 }: { size?: number }) {
 
 export function Footer() {
   return (
-    <footer className="bg-footer-bg px-12 py-28 flex items-end justify-between">
+    <footer className="bg-footer-bg px-6 py-14 sm:px-12 sm:py-28 flex flex-col sm:flex-row items-start sm:items-end gap-6 sm:gap-0 justify-between">
       <p className="font-sans text-sm text-muted tracking-wide">
         © {new Date().getFullYear()} Claire Squires
       </p>
