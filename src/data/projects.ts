@@ -1,6 +1,9 @@
-import classroom from "../assets/classroom.jpg";
+import classroom from "../assets/classroom/classroom.jpg";
+import classroomMockup1 from "../assets/classroom/mockup-1.png";
+import classroomMockup2 from "../assets/classroom/mockup-2.png";
+import classroomMockup3 from "../assets/classroom/mockup-3.png";
 import fruits from "../assets/fruits.jpg";
-import hearth from "../assets/Heath.jpg";
+import hearth from "../assets/Hearth.jpg";
 import saferSpaces from "../assets/SaferSpaces.jpg";
 import tpf from "../assets/TPF.png";
 
@@ -25,6 +28,7 @@ export type Project = {
   stack: string[];
   links?: ProjectLink[];
   image: string;
+  mockups?: string[];
 };
 
 export const PROJECTS: Project[] = [
@@ -150,5 +154,6 @@ export const PROJECTS: Project[] = [
       },
     ],
     image: classroom,
+    mockups: [classroomMockup1, classroomMockup2, classroomMockup3],
   },
 ];

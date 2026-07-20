@@ -22,9 +22,18 @@ export function ProjectPage() {
   }
 
   return (
-    <div className="min-h-svh bg-hero-bg flex flex-col md:flex-row">
-      {/* Content */}
-      <div className="flex-1 px-5 py-8 sm:px-10 sm:py-10 md:px-14 md:py-12 max-w-3xl">
+    <div className="min-h-svh bg-hero-bg relative">
+      {/* Fixed background image — desktop only */}
+      <div className="hidden md:block fixed right-0 top-0 w-1/2 h-screen z-0">
+        <img
+          src={project.image}
+          alt={project.name}
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Scrolling left content */}
+      <div className="relative z-10 md:w-1/2 px-5 py-8 sm:px-10 sm:py-10 md:px-14 md:py-12">
         <button
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 font-h2 font-light text-[13px] text-muted hover:text-hero-name transition-colors mb-7 sm:mb-10 cursor-pointer"
@@ -153,14 +162,19 @@ export function ProjectPage() {
         </div>
       </div>
 
-      {/* Image panel — desktop only */}
-      <div className="hidden md:flex-1 md:block md:sticky md:top-0 md:h-svh">
-        <img
-          src={project.image}
-          alt={project.name}
-          className="w-full h-full object-cover"
-        />
-      </div>
+      {/* Full-width mockup section */}
+      {project.mockups && project.mockups.length > 0 && (
+        <div className="relative z-10 w-full">
+          {project.mockups.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt={`${project.name} mockup ${i + 1}`}
+              className="w-full block"
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
